@@ -1,0 +1,13 @@
+import React from 'react'
+
+const LongBreak = () => {
+  return (
+    <div className='flex flex-col items-center gap-4 p-20'>
+        {/* Additional content can be added here */}
+        <div className='text-9xl font-mono tracking-widest'>00:15:00</div>
+        {/* Timer display can be enhanced with actual timer logic */}
+    </div>
+  )
+}
+
+export default LongBreak
