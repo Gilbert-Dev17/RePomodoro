@@ -12,7 +12,6 @@ import ShortBreak from '../timers/ShortBreak';
 import LongBreak from '../timers/LongBreak';
 import ClassicMode from '../timers/ClassicMode';
 import { useSettingsStore } from '@/store/useSettingsStore';
-import ModeToggle from './ModeToggle';
 
 const CustomTabs = () => {
   const mode = useSettingsStore((state) => state.mode);
@@ -25,7 +24,7 @@ const CustomTabs = () => {
   }, [mode, selectedTab]);
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 w-[400px]">
+    <section className="flex flex-col items-center justify-center w-[400px]">
       <Tabs
         value={selectedTab}
         onValueChange={setSelectedTab}
@@ -33,7 +32,7 @@ const CustomTabs = () => {
         className="w-full flex flex-col items-center justify-center ">
         <TabsList className="bg-muted text-muted-foreground flex justify-center w-full gap-4">
           <TabsTrigger value="focus">
-            {mode === 'classic' ? 'Classic Mode' : 'Focus Mode'}
+            {mode === 'classic' ? 'Pomodoro' : 'RePomodoro'}
           </TabsTrigger>
           <TabsTrigger value="short">
             {mode === 'classic' ? 'Short Break' : 'Break'}
@@ -42,7 +41,6 @@ const CustomTabs = () => {
             <TabsTrigger value="long">Long Break</TabsTrigger>
           )}
 
-           <ModeToggle />
         </TabsList>
 
 

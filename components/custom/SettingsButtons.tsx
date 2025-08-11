@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+'use client';
+
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { Button } from "@/components/ui/button";
 import { Settings } from 'lucide-react';
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
@@ -12,25 +15,80 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { useSettingsStore } from '@/store/useSettingsStore';
+import { useTimerStore } from '@/store/useTimerStore';
+
+type SettingsFormValues = {
+  focusTime: number;
+  shortBreak: number;
+  longBreak: number;
+  mode: 'classic' | 'reverse';
+};
+
+const DEFAULT_VALUES: SettingsFormValues = {
+  focusTime: 60,
+  shortBreak: 5,
+  longBreak: 15,
+  mode: 'classic',
+};
 
 const SettingsButton = () => {
-  const [focusTime, setFocusTime] = useState(60); // minutes
-  const [shortBreak, setShortBreak] = useState(5); // minutes
-  const [longBreak, setLongBreak] = useState(15); // minutes
+  const { syncWithSettings } = useTimerStore.getState();
 
-  const handleSave = () => {
-    console.log({ focusTime, shortBreak, longBreak });
-    // Save logic here (LocalStorage, Context, etc.)
+  const {
+    focusTime,
+    shortBreak,
+    longBreak,
+    mode,
+    setFocusTime,
+    setShortBreak,
+    setLongBreak,
+    setMode
+  } =
+    useSettingsStore();
+
+  const form = useForm<SettingsFormValues>({
+    defaultValues: {
+      focusTime,
+      shortBreak,
+      longBreak,
+      mode,
+    },
+  });
+
+  const handleSave = (data: SettingsFormValues) => {
+    syncWithSettings();
+    setFocusTime(data.focusTime);
+    setShortBreak(data.shortBreak);
+    setLongBreak(data.longBreak);
+    setMode(data.mode);
   };
 
   const handleReset = () => {
-    setFocusTime(60);
-    setShortBreak(5);
-    setLongBreak(15);
+    form.reset(DEFAULT_VALUES);
+    setFocusTime(DEFAULT_VALUES.focusTime);
+    setShortBreak(DEFAULT_VALUES.shortBreak);
+    setLongBreak(DEFAULT_VALUES.longBreak);
+    setMode(DEFAULT_VALUES.mode);
   };
+
+  const inputFields = [
+    { label: 'Focus Time (minutes)', name: 'focusTime', min: 1 },
+    { label: 'Short Break (minutes)', name: 'shortBreak', min: 1 },
+    { label: 'Long Break (minutes)', name: 'longBreak', min: 1 },
+  ];
 
   return (
     <Dialog>
@@ -55,63 +113,68 @@ const SettingsButton = () => {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col gap-6">
-          {/* Focus Time */}
-          <div>
-            <Label htmlFor="focusTime">Focus Time (minutes)</Label>
-            <Input
-              id="focusTime"
-              type="number"
-              value={focusTime}
-              onChange={(e) => setFocusTime(Number(e.target.value))}
-              min={1}
-            />
-          </div>
-
-          {/* Break Times */}
-          <div>
-            <Label htmlFor="shortBreak">Short Break (minutes)</Label>
-            <Input
-              id="shortBreak"
-              type="number"
-              value={shortBreak}
-              onChange={(e) => setShortBreak(Number(e.target.value))}
-              min={1}
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="longBreak">Long Break (minutes)</Label>
-            <Input
-              id="longBreak"
-              type="number"
-              value={longBreak}
-              onChange={(e) => setLongBreak(Number(e.target.value))}
-              min={1}
-            />
-          </div>
+        <form
+          onSubmit={form.handleSubmit(handleSave)}
+          className="flex flex-col gap-6"
+        >
+          {/* Focus and Break Times */}
+          {inputFields.map((field) => (
+            <div key={field.name} className="flex flex-col gap-2">
+              <Label htmlFor={field.name}>{field.label}</Label>
+              <Input
+                id={field.name}
+                type="number"
+                min={field.min}
+                {...form.register(field.name as keyof SettingsFormValues, {
+                  valueAsNumber: true,
+                  required: true,
+                })}
+              />
+            </div>
+          ))}
 
           <Separator />
 
-          {/* Future: Focus Mode selector */}
+          {/* Mode Selector */}
           <div>
-            <Label>Focus Mode</Label>
+            <Label>Mode</Label>
             <p className="text-sm text-muted-foreground">
-              Switch to Focus Mode for a distraction-free experience.
+              Choose between Classic and Reverse Pomodoro modes.
             </p>
           </div>
-        </div>
+          <Select
+            value={form.watch('mode')}
+            onValueChange={(value) =>
+              form.setValue('mode', value as 'classic' | 'reverse')
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Mode" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Mode</SelectLabel>
+                <SelectItem value="classic">Classic Pomodoro</SelectItem>
+                <SelectItem value="reverse">Reverse Pomodoro</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
-        <DialogFooter className="mt-4">
-          <DialogClose asChild>
-            <Button variant="default" onClick={handleSave}>
-              Save Changes
+          <DialogFooter className="mt-4">
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleReset}
+            >
+              Reset to Default
             </Button>
-          </DialogClose>
-          <Button variant="secondary" onClick={handleReset}>
-            Reset to Default
-          </Button>
-        </DialogFooter>
+            <DialogClose asChild>
+              <Button type="submit" variant="default">
+                Save Changes
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
