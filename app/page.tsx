@@ -12,7 +12,7 @@ const Page = () => {
       <Header />
 
       {/* Timer Section */}
-      <section className="flex-1 flex flex-col justify-center items-center gap-8">
+      <section className="flex flex-col justify-center items-center gap-8">
         {/* Custom Tabs */}
         <CustomTabs />
 
