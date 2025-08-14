@@ -21,7 +21,7 @@ export const useTimerStore = create<TimerState>((set, get) => {
     const s = useSettingsStore.getState();
     return (
       phase === 'focus'
-        ? s.focusTime
+        ? s.Pomodoro
         : phase === 'shortBreak'
         ? s.shortBreak
         : s.longBreak

@@ -1,5 +1,9 @@
+'use client'
+
 import React from 'react'
 import { Label } from '../ui/label'
+import { useTimerStore } from '@/store/useTimerStore'
+
 
 const FocusMode = () => {
   return (
