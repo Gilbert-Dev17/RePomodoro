@@ -3,16 +3,14 @@ import { useSettingsStore } from './useSettingsStore';
 
 type TimerPhase = 'focus' | 'shortBreak' | 'longBreak';
 
-// TODO: test REpomodoro mode for Errors
-
 interface TimerState {
-  timeLeft: number;             // seconds
+  timeLeft: number;
   isRunning: boolean;
   phase: TimerPhase;
   intervalId: number | null;
-  startTime: number | null;     // For classic countdown
-  endTime: number | null;       // For classic countdown
-  lastTick: number | null;      // For reverse stopwatch
+  startTime: number | null;
+  endTime: number | null;
+  lastTick: number | null;
   start: () => void;
   pause: () => void;
   reset: () => void;
@@ -30,10 +28,20 @@ export const useTimerStore = create<TimerState>((set, get) => {
     return mins * 60;
   };
 
-  const s0 = useSettingsStore.getState();
-  const initialTimeLeft =
-    s0.mode === 'reverse' ? (s0.Repomodoro ?? 0) : getDuration('focus', s0);
+  // Default safe values until hydration
+  const initialPhase: TimerPhase = 'focus';
 
+  // Sync after settings hydrate
+  if ((useSettingsStore as any).persist) {
+    (useSettingsStore as any).persist.onFinishHydration(() => {
+      get().syncWithSettings();
+    });
+  } else {
+    // No persist — just sync immediately
+    // get().syncWithSettings();
+  }
+
+  // Subscribe to mode/duration changes
   useSettingsStore.subscribe((s, prev) => {
     if (s.mode !== prev.mode) {
       const id = get().intervalId;
@@ -64,9 +72,9 @@ export const useTimerStore = create<TimerState>((set, get) => {
   });
 
   return {
-    timeLeft: initialTimeLeft,
+    timeLeft: 0, // will be set after hydration
     isRunning: false,
-    phase: 'focus',
+    phase: initialPhase,
     intervalId: null,
     startTime: null,
     endTime: null,
@@ -81,7 +89,7 @@ export const useTimerStore = create<TimerState>((set, get) => {
         const endTime = now + get().timeLeft * 1000;
         set({ startTime: now, endTime });
       } else {
-        set({ startTime: get().startTime ?? now }); // Save start once
+        set({ startTime: get().startTime ?? now });
       }
 
       const id = window.setInterval(() => {
@@ -91,9 +99,8 @@ export const useTimerStore = create<TimerState>((set, get) => {
         set((state) => {
           if (mode === 'reverse') {
             const elapsed = Math.floor((now - (state.startTime ?? now)) / 1000);
-            const next = elapsed;
-            setRepomodro?.(next);
-            return { timeLeft: next };
+            setRepomodro?.(elapsed);
+            return { timeLeft: elapsed };
           } else if (state.endTime) {
             const remaining = Math.max(0, Math.floor((state.endTime - now) / 1000));
             if (remaining <= 0) {
@@ -166,7 +173,9 @@ export const useTimerStore = create<TimerState>((set, get) => {
       if (get().isRunning) return;
       const s = useSettingsStore.getState();
       set({
-        timeLeft: s.mode === 'reverse' ? (s.Repomodoro ?? 0) : getDuration(get().phase, s),
+        timeLeft: s.mode === 'reverse'
+          ? (s.Repomodoro ?? 0)
+          : getDuration(get().phase, s),
       });
     },
   };

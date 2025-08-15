@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, {useCallback} from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from "@/components/ui/button";
 import { Settings, Repeat, Clock3, Volume2 } from 'lucide-react';
@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {Slider} from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -31,6 +32,7 @@ import { availableSounds } from '@/sounds-libary/soundManager';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { useTimerStore } from '@/store/useTimerStore';
 import { useSoundStore } from '@/sounds-libary/soundManager';
+import { debounce } from '@/lib/debounce';
 
 type SettingsFormValues = {
 
@@ -41,6 +43,7 @@ type SettingsFormValues = {
   AutoStart: boolean;
   BreakInterval: number;
 };
+
 
 const DEFAULT_VALUES: SettingsFormValues = {
   Pomodoro: 30,
@@ -77,6 +80,20 @@ const SettingsButton = () => {
   });
 
   const {playsound, stopSound} = useSoundStore();
+  const {volume, setVolume} = useSoundStore();
+
+  const debounceSave = useCallback(
+    debounce((data: SettingsFormValues) => {
+      setPomodoro(data.Pomodoro);
+      setShortBreak(data.shortBreak);
+      setLongBreak(data.longBreak);
+      setMode(data.mode);
+      setAutoStart(data.AutoStart);
+      setBreakInterval?.(data.BreakInterval);
+      syncWithSettings();
+    }, 250),
+  []
+)
 
   const handleSave = (data: SettingsFormValues) => {
     setPomodoro(data.Pomodoro);
@@ -144,9 +161,10 @@ const SettingsButton = () => {
             </p>
             <Select
               value={form.watch('mode')}
-              onValueChange={(value) =>
-                form.setValue('mode', value as 'classic' | 'reverse')
-              }
+              onValueChange={(value) => {
+                form.setValue('mode', value as 'classic' | 'reverse');
+                debounceSave(form.getValues());
+              }}
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select Mode" />
@@ -172,7 +190,6 @@ const SettingsButton = () => {
               </span>
             </div>
 
-
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mb-6'>
               {inputFields.map((field) => (
                 <div key={field.name} className="flex flex-col gap-2">
@@ -185,6 +202,9 @@ const SettingsButton = () => {
                     {...form.register(field.name as keyof SettingsFormValues, {
                       valueAsNumber: true,
                       required: true,
+                      onChange: ()  => {
+                        debounceSave(form.getValues());
+                      }
                     })}
                   />
                 </div>
@@ -199,6 +219,7 @@ const SettingsButton = () => {
                 onCheckedChange={(checked) => {
                   setAutoStart(checked);
                   form.setValue('AutoStart', checked);
+                  debounceSave(form.getValues()); // auto-save with debounce
                 }}
                 />
               </div>
@@ -211,6 +232,9 @@ const SettingsButton = () => {
                   {...form.register('BreakInterval', {
                     valueAsNumber: true,
                     required: true,
+                    onChange: () => {
+                      debounceSave(form.getValues());
+                    }
                   })}
                    />
               </div>
@@ -221,39 +245,69 @@ const SettingsButton = () => {
 
           {/* Sound */}
           <section>
-            <div className='flex flex-col gap-2'>
-              <Label className='mb-2 font-bold'> <Volume2 size={16}/> Sound</Label>
-            </div>
-            {/* placeholder */}
-            <div className='flex flex-row gap-2 justify-between items-center'>
-              <Label>Alarm Sound</Label>
+            <Label className="mb-2 font-bold flex items-center gap-2">
+              <Volume2 size={16}/> Sound
+            </Label>
+
+            {/* Alarm Selector + Play/Stop */}
+            <div className="flex flex-row gap-4 items-center">
+              <Label className="whitespace-nowrap">Alarm Sound</Label>
               <Select
                 value={selectSound}
-                onValueChange={setSelectSound}
+                onValueChange={(value) => {
+                  stopSound();
+                  setSelectSound(value);
+                  playsound(value);
+                }}
               >
-                <SelectTrigger className="w-auto">
+                <SelectTrigger className="w-[160px]">
                   <SelectValue placeholder="Select Sound" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Available Sounds</SelectLabel>
                     {availableSounds.map((sound) => (
-                      <SelectItem
-                        key={sound.name}
-                        value={sound.name}
-                        onClick={() => {
-                          setSelectSound(sound.name);
-                          setTimeout(() => playsound(), 0); // Play sound after selection
-                        }}
-                      >
+                      <SelectItem key={sound.name} value={sound.name}>
                         {sound.name}
                       </SelectItem>
                     ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
+
+              <Button
+                variant="destructive"
+                size="icon"
+                title="Stop Sound"
+                onClick={() => stopSound()}
+              >
+                ✕
+              </Button>
+            </div>
+
+            {/* Volume Slider */}
+            <div className="mt-4 flex flex-row items-center gap-4">
+              <span className="text-sm w-12">Volume</span>
+              <Slider
+                value={[volume * 100]}
+                onValueChange={(val) => {
+                  const newVolume = val[0] / 100;
+                  setVolume(newVolume);
+
+                  // If a sound is already playing, update it live
+                  const currentAudio = useSoundStore.getState().audioInstance;
+                  if (currentAudio) {
+                    currentAudio.volume = newVolume;
+                  }
+                }}
+                max={100}
+                step={1}
+                className="w-48"
+              />
+              <span className="w-10 text-right text-sm">{Math.round(volume * 100)}%</span>
             </div>
           </section>
+
 
           <DialogFooter className="mt-4 flex flex-row gap-2">
             <Button
