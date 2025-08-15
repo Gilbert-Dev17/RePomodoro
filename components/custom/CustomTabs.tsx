@@ -7,10 +7,9 @@ import {
   TabsTrigger,
   TabsContent,
 } from "@/components/ui/tabs";
-import FocusMode from '../timers/FocusMode';
 import ShortBreak from '../timers/ShortBreak';
 import LongBreak from '../timers/LongBreak';
-import ClassicMode from '../timers/ClassicMode';
+import TimerDisplay from '../timers/TimerDisplay';
 import { useSettingsStore } from '@/store/useSettingsStore';
 
 const CustomTabs = () => {
@@ -45,7 +44,8 @@ const CustomTabs = () => {
 
 
         <TabsContent value="focus" className="flex justify-center w-full">
-          {mode === 'classic' ? <ClassicMode /> : <FocusMode />}
+          {/* {mode === 'classic' ? <ClassicMode /> : <FocusMode />} */}
+          <TimerDisplay />
         </TabsContent>
 
         <TabsContent value="short" className="flex justify-center w-full">

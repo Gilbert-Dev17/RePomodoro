@@ -11,6 +11,9 @@ interface SettingsState {
   mode: Mode;
   AutoStart: boolean;
   BreakInterval: number;
+  selectSound: string;
+
+  // Methods to update settings
 
   setPomodoro: (minutes: number) => void;
   setShortBreak: (minutes: number) => void;
@@ -18,6 +21,8 @@ interface SettingsState {
   setMode: (mode: Mode) => void;
   setAutoStart: (value: boolean) => void;
   setBreakInterval?: (interval: number) => void;
+  setSelectSound: (soundName: string) => void;
+  // Methods to manage Repomodoro
 
   setRepomodro: (value: number) => void;
   incrementRepomodro: () => void;
@@ -35,6 +40,7 @@ export const useSettingsStore = create<SettingsState>()(
       mode: 'reverse',
       AutoStart: true,
       BreakInterval: 5, // Optional for now
+      selectSound: 'Alarm',
 
       setPomodoro: (minutes) => set({ Pomodoro: minutes }),
       setShortBreak: (minutes) => set({ shortBreak: minutes }),
@@ -42,6 +48,7 @@ export const useSettingsStore = create<SettingsState>()(
       setMode: (mode) => set({ mode }),
       setAutoStart: (value) => set({ AutoStart: value }),
       setBreakInterval: (interval) => set({ BreakInterval: interval }),
+      setSelectSound: (soundName) => set({ selectSound: soundName }),
 
       setRepomodro: (value) => set({ Repomodoro: value }),
       incrementRepomodro: () =>

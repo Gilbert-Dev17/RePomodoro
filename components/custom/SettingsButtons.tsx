@@ -27,10 +27,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '../ui/switch';
+import { availableSounds } from '@/sounds-libary/soundManager';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { useTimerStore } from '@/store/useTimerStore';
+import { useSoundStore } from '@/sounds-libary/soundManager';
 
 type SettingsFormValues = {
+
   Pomodoro: number;
   shortBreak: number;
   longBreak: number;
@@ -63,6 +66,8 @@ const SettingsButton = () => {
     setMode,
     setAutoStart,
     setBreakInterval,
+    selectSound,
+    setSelectSound
   } = useSettingsStore();
 
 
@@ -70,6 +75,8 @@ const SettingsButton = () => {
 
     defaultValues: { Pomodoro, shortBreak, longBreak, mode, AutoStart, BreakInterval },
   });
+
+  const {playsound, stopSound} = useSoundStore();
 
   const handleSave = (data: SettingsFormValues) => {
     setPomodoro(data.Pomodoro);
@@ -220,17 +227,28 @@ const SettingsButton = () => {
             {/* placeholder */}
             <div className='flex flex-row gap-2 justify-between items-center'>
               <Label>Alarm Sound</Label>
-              <Select>
-                <SelectTrigger className="w-1/2">
+              <Select
+                value={selectSound}
+                onValueChange={setSelectSound}
+              >
+                <SelectTrigger className="w-auto">
                   <SelectValue placeholder="Select Sound" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Available Sounds</SelectLabel>
-                    <SelectItem value="default">Default</SelectItem>
-                    <SelectItem value="chime">Chime</SelectItem>
-                    <SelectItem value="beep">Beep</SelectItem>
-                    {/* Add more sound options as needed */}
+                    {availableSounds.map((sound) => (
+                      <SelectItem
+                        key={sound.name}
+                        value={sound.name}
+                        onClick={() => {
+                          setSelectSound(sound.name);
+                          setTimeout(() => playsound(), 0); // Play sound after selection
+                        }}
+                      >
+                        {sound.name}
+                      </SelectItem>
+                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>

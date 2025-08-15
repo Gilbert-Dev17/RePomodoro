@@ -4,7 +4,7 @@ import { ArrowRightToLine } from 'lucide-react';
 import { useTimerStore } from '@/store/useTimerStore';
 
 const ButtonControls = () => {
-  const { start, pause, reset, isRunning } = useTimerStore();
+  const { start, pause, reset, skip,  isRunning } = useTimerStore();
 
   return (
     <section className="flex gap-4">
