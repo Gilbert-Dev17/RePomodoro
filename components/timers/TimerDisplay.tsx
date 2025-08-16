@@ -32,13 +32,18 @@ const TimerDisplay = () => {
     : null;
 
   return (
-    <div className="flex flex-col items-center gap-4 min-h-96 md:p-40 p-0">
-      <Label className="text-9xl font-mono tracking-widest">
+    <div className="flex flex-col items-center justify-center gap-4 min-h-[60vh] px-4">
+      <Label
+        className="
+          font-mono tracking-widest text-center
+          text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl
+        "
+      >
         {formatTime(timeLeft)}
       </Label>
 
       {mode === 'reverse' && (
-        <Label className="text-sm text-green-600 z-50">
+        <Label className="text-xs sm:text-sm md:text-base text-green-600 z-50">
           Break: {breakMinutes} min
         </Label>
       )}

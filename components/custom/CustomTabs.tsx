@@ -1,35 +1,35 @@
-'use client';
-
-import React, {useState, useEffect} from 'react';
+'use client'
+import React, { useState, useEffect } from 'react'
 import {
   Tabs,
   TabsList,
   TabsTrigger,
   TabsContent,
-} from "@/components/ui/tabs";
-import ShortBreak from '../timers/ShortBreak';
-import LongBreak from '../timers/LongBreak';
-import TimerDisplay from '../timers/TimerDisplay';
-import { useSettingsStore } from '@/store/useSettingsStore';
+} from "@/components/ui/tabs"
+import ShortBreak from '../timers/ShortBreak'
+import LongBreak from '../timers/LongBreak'
+import TimerDisplay from '../timers/TimerDisplay'
+import { useSettingsStore } from '@/store/useSettingsStore'
 
 const CustomTabs = () => {
-  const mode = useSettingsStore((state) => state.mode);
-  const [selectedTab, setSelectedTab] = useState('focus');
+  const mode = useSettingsStore((state) => state.mode)
+  const [selectedTab, setSelectedTab] = useState('focus')
 
   useEffect(() => {
-  if (mode !== 'classic' && selectedTab === 'long') {
-      setSelectedTab('focus');
+    if (mode !== 'classic' && selectedTab === 'long') {
+      setSelectedTab('focus')
     }
-  }, [mode, selectedTab]);
+  }, [mode, selectedTab])
 
   return (
-    <section className="flex flex-col items-center justify-center w-[400px]">
+    <section className="flex flex-col items-center justify-center w-full max-w-lg px-4">
       <Tabs
         value={selectedTab}
         onValueChange={setSelectedTab}
         defaultValue="focus"
-        className="w-full flex flex-col items-center justify-center ">
-        <TabsList className="bg-muted text-muted-foreground flex justify-center w-full gap-4">
+        className="w-full flex flex-col items-center"
+      >
+        <TabsList className="bg-muted text-muted-foreground flex justify-center w-full gap-2 sm:gap-4 flex-wrap">
           <TabsTrigger value="focus">
             {mode === 'classic' ? 'Pomodoro' : 'RePomodoro'}
           </TabsTrigger>
@@ -39,12 +39,9 @@ const CustomTabs = () => {
           {mode === 'classic' && (
             <TabsTrigger value="long">Long Break</TabsTrigger>
           )}
-
         </TabsList>
 
-
         <TabsContent value="focus" className="flex justify-center w-full">
-          {/* {mode === 'classic' ? <ClassicMode /> : <FocusMode />} */}
           <TimerDisplay />
         </TabsContent>
 
@@ -58,10 +55,8 @@ const CustomTabs = () => {
           </TabsContent>
         )}
       </Tabs>
-
-
     </section>
-  );
-};
+  )
+}
 
-export default CustomTabs;
+export default CustomTabs

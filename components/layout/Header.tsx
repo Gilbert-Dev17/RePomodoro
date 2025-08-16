@@ -2,7 +2,7 @@ import React from 'react'
 import { DarkMode } from '@/components/layout/DarkMode';
 import { ScrollText, Repeat } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import SettingsButton from '@/components/custom/SettingsButtons';
+import SettingsButton from '@/components/settings/SettingsButtons';
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { Card } from "@/components/ui/card";
 import { Label } from '@/components/ui/label';
