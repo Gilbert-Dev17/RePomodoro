@@ -29,7 +29,7 @@ const Page = () => {
       <Header />
 
       {/* Timer Section */}
-      <section className="flex flex-1 flex-col justify-center items-center gap-8">
+      <section className="flex flex-1 flex-col justify-center items-center gap-8 ">
         {/* Custom Tabs */}
         <Label className="text-sm md:text-2xl font-semibold text-muted-foreground">
           {header}

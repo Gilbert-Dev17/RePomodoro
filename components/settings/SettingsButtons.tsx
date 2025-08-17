@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback} from 'react';
+import React, { useCallback, useMemo} from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from "@/components/ui/button";
 import { Settings } from 'lucide-react';
@@ -48,29 +48,36 @@ const SettingsButton = () => {
     defaultValues: { Pomodoro, shortBreak, longBreak, mode, AutoStart, BreakInterval },
   });
 
-  const debounceSave = useCallback(
-    debounce((data: SettingsFormValues) => {
+  const saveSettings = useCallback((data: SettingsFormValues) => {
+  if (
+    !data.Pomodoro || data.Pomodoro < 1 ||
+    !data.shortBreak || data.shortBreak < 1 ||
+    !data.longBreak || data.longBreak < 1 ||
+    !data.BreakInterval || data.BreakInterval < 1
+  ) {
+    console.warn('Invalid settings values, not saving:', data);
+    return;
+  }
 
-      if (
-        !data.Pomodoro || data.Pomodoro < 1 ||
-        !data.shortBreak || data.shortBreak < 1 ||
-        !data.longBreak || data.longBreak < 1 ||
-        !data.BreakInterval || data.BreakInterval < 1
-      ) {
-        console.warn('Invalid settings values, not saving:', data);
-        return;
-      }
+  setPomodoro(data.Pomodoro);
+  setShortBreak(data.shortBreak);
+  setLongBreak(data.longBreak);
+  setMode(data.mode);
+  setAutoStart(data.AutoStart);
+  setBreakInterval?.(data.BreakInterval);
+  syncWithSettings();
+}, [
+  setPomodoro,
+  setShortBreak,
+  setLongBreak,
+  setMode,
+  setAutoStart,
+  setBreakInterval,
+  syncWithSettings
+]);
 
-      setPomodoro(data.Pomodoro);
-      setShortBreak(data.shortBreak);
-      setLongBreak(data.longBreak);
-      setMode(data.mode);
-      setAutoStart(data.AutoStart);
-      setBreakInterval?.(data.BreakInterval);
-      syncWithSettings();
-    }, 250),
-    []
-  );
+const debounceSave = useMemo(() => debounce(saveSettings, 250), [saveSettings]);
+
 
   const handleReset = () => {
     form.reset(DEFAULT_VALUES);
