@@ -36,9 +36,6 @@ export const useTimerStore = create<TimerState>((set, get) => {
     (useSettingsStore as any).persist.onFinishHydration(() => {
       get().syncWithSettings();
     });
-  } else {
-    // No persist — just sync immediately
-    // get().syncWithSettings();
   }
 
   // Subscribe to mode/duration changes

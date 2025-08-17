@@ -10,10 +10,12 @@ import ShortBreak from '../timers/ShortBreak'
 import LongBreak from '../timers/LongBreak'
 import TimerDisplay from '../timers/TimerDisplay'
 import { useSettingsStore } from '@/store/useSettingsStore'
+import { useTimerStore } from '@/store/useTimerStore'
 
 const CustomTabs = () => {
   const mode = useSettingsStore((state) => state.mode)
   const [selectedTab, setSelectedTab] = useState('focus')
+  const {isRunning} = useTimerStore()
 
   useEffect(() => {
     if (mode !== 'classic' && selectedTab === 'long') {
