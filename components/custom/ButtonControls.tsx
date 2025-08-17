@@ -5,8 +5,8 @@ import { useTimerStore } from '@/store/useTimerStore'
 import { useSettingsStore } from '@/store/useSettingsStore'
 
 const ButtonControls = () => {
-  const { start, pause, reset, isRunning } = useTimerStore();
-  const mode = useSettingsStore((state) => state.mode);
+  const { start, pause, skip, isRunning } = useTimerStore();
+  const { mode } = useSettingsStore();
 
   // Ensure the button controls are only rendered when the mode is set
   if (!mode) return null;
@@ -14,6 +14,8 @@ const ButtonControls = () => {
   // Adjust button text based on mode
   const buttonText = mode === 'classic' ? 'START' : 'RESTART';
   const buttonText2 = mode === 'classic' ? 'PAUSE' : 'BREAK';
+
+  const buttonFunction = mode === 'classic' ? pause : skip;
 
   return (
       <section className="flex flex-wrap justify-center items-center gap-4 mt-6">
@@ -23,7 +25,7 @@ const ButtonControls = () => {
               variant="secondary"
               size="lg"
               className="px-6 py-3 font-bold text-base sm:text-lg md:text-xl"
-              onClick={pause}
+              onClick={buttonFunction}
             >
               {buttonText2}
             </Button>
@@ -33,7 +35,8 @@ const ButtonControls = () => {
                 size="icon"
                 className="text-lg sm:text-xl"
                 onClick={() => {
-                  reset();
+                  // reset();
+                  skip();
                 }
               }
               >

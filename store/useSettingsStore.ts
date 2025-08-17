@@ -30,6 +30,7 @@ interface SettingsState {
 
 }
 
+
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
@@ -38,8 +39,8 @@ export const useSettingsStore = create<SettingsState>()(
       shortBreak: 5,
       longBreak: 15,
       mode: 'reverse',
-      AutoStart: true,
-      BreakInterval: 5, // Optional for now
+      AutoStart: false,
+      BreakInterval: 4, // Optional for now
       selectSound: 'Alarm',
 
       setPomodoro: (minutes) => set({ Pomodoro: minutes }),

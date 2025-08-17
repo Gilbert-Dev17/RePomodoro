@@ -1,6 +1,6 @@
 import React from 'react'
 import { DarkMode } from '@/components/layout/DarkMode';
-import { ScrollText, Repeat } from 'lucide-react';
+import { FileQuestion } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import SettingsButton from '@/components/settings/SettingsButtons';
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
@@ -20,11 +20,11 @@ const Header = () => {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button variant="ghost" size="icon" title="History">
-                <ScrollText size={18} />
+                <FileQuestion size={18} />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>History</p>
+              How to use?
             </TooltipContent>
           </Tooltip>
 
