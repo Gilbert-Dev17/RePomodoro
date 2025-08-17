@@ -15,7 +15,6 @@ import { useTimerStore } from '@/store/useTimerStore'
 const CustomTabs = () => {
   const mode = useSettingsStore((state) => state.mode)
   const [selectedTab, setSelectedTab] = useState('focus')
-  const {isRunning} = useTimerStore()
 
   useEffect(() => {
     if (mode !== 'classic' && selectedTab === 'long') {

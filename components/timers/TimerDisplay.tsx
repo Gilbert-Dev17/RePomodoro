@@ -7,7 +7,8 @@ import { useSettingsStore } from '@/store/useSettingsStore';
 
 const TimerDisplay = () => {
   const { timeLeft } = useTimerStore();
-  const mode = useSettingsStore((state) => state.mode); // ✅ fresh mode from settings
+  const {shortBreak, longBreak} = useSettingsStore();
+  const mode = useSettingsStore((state) => state.mode);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

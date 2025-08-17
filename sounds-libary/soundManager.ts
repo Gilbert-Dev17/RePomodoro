@@ -8,7 +8,7 @@ type Sound = {
 
 const availableSounds: Sound[] = [
   { name: 'Alarm', file: '/sounds/Alarm.mp3' },
-  { name: 'Clock', file: '/sounds/Clock.mp3' },
+  // { name: 'Clock', file: '/sounds/Clock.mp3' },
 ];
 
 type SoundManagerState = {
