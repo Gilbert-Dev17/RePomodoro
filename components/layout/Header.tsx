@@ -6,6 +6,7 @@ import SettingsButton from '@/components/settings/SettingsButtons';
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { Card } from "@/components/ui/card";
 import { Label } from '@/components/ui/label';
+import HowTo from '../custom/HowTo';
 
 const Header = () => {
   return (
@@ -17,16 +18,7 @@ const Header = () => {
 
         {/* Utility Buttons */}
         <Card className="flex items-center gap-3 flex-row p-2">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" title="History">
-                <FileQuestion size={18} />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              How to use?
-            </TooltipContent>
-          </Tooltip>
+          <HowTo />
 
           <SettingsButton />
 
