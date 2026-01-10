@@ -6,14 +6,13 @@ import { Coffee } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { fadeIn } from '@/lib/motion'
-import { cn } from '@/lib/utils'
 
 const WelcomePage = () => {
   const router = useRouter()
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      // router.push('/home')
+      router.push('/home')
     }, 3000)
 
     return () => clearTimeout(timer)
@@ -23,9 +22,10 @@ const WelcomePage = () => {
     <main className="min-h-screen flex items-center justify-center">
       <motion.div {...fadeIn()}>
         <Label
-          className={cn("text-xl flex items-center font-[var(--font-poppins)] font-medium animate-pulse")}
+          className="text-xl flex items-center font-medium"
+          style={{ fontFamily: 'var(--font-fredoka)' }}
         >
-          <Coffee className="mr-1 h-10 w-10" />
+          <Coffee className="mr-1 h-10 w-10 animate-bounce" />
           Warming things up for you...
         </Label>
       </motion.div>
