@@ -27,17 +27,27 @@ The traditional Pomodoro technique works great for some, but the fixed 25-minute
 
 ## The Science Behind 1/3
 
-RePomodoro's rest ratio isn't a guess. A study by the **Draugiem Group** found
-that the most productive workers followed a roughly **52-minutes-of-work to
-17-minutes-of-rest** pattern — nearly exactly a 1:3 ratio. Researchers
-attributed this to how the brain naturally cycles: about an hour of high
-energy, followed by 15–20 minutes of lower energy.
+RePomodoro's rest ratio isn't arbitrary. Multiple independent studies across
+neuroscience and behavioral research converge on the same finding: the human
+brain needs roughly **1 minute of rest for every 3 minutes of focused work**.
 
-RePomodoro is built around this insight. Whatever your work duration,
-your earned rest is always **1/3 of that time** — scaling naturally with
-how long you actually worked.
+| Study | Finding |
+|---|---|
+| Draugiem Group / DeskTime (2014) | Top 10% most productive workers: 52 min work → 17 min rest (~1:3) |
+| DeskTime Updated Study (2021) | 112 min work → 26 min rest (same proportional range) |
+| Nathaniel Kleitman — BRAC (1963) | Brain operates in 90-min high-alertness cycles, followed by ~20 min rest |
+| Peretz Lavie — Technion Institute | Ultradian rest troughs are biologically mandatory, not optional |
+| Chris Bailey (3-study meta, 2023) | Optimal productivity = 20–25% of work time spent on breaks |
 
-> Source: ["The Perfect Amount of Time to Work Each Day"](https://www.globalleadership.org/article/the-perfect-amount-of-time-to-work-each-day) — Travis Bradberry, TalentSmart
+The consistent thread: **your brain is not designed for continuous output**.
+It cycles naturally between focus and recovery. RePomodoro simply makes that
+cycle visible and automatic — whatever your session length, your earned rest
+scales with it.
+
+> Further reading:
+> - ["The Perfect Amount of Time to Work Each Day"](https://www.globalleadership.org/article/the-perfect-amount-of-time-to-work-each-day) — Travis Bradberry
+> - ["Does the 52-17 rule really hold up?"](https://desktime.com/blog/52-17-updated) — DeskTime Blog
+> - ["For optimal productivity, be on break for 20-25% of the workday"](https://chrisbailey.com/for-optimal-productivity-be-on-break-for-20-25-of-the-workday/) — Chris Bailey
 
 ---
 
