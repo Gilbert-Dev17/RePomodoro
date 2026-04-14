@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍅 RePomodoro
+
+> Work on your terms. Rest what you've earned.
+
+RePomodoro flips the classic Pomodoro technique on its head. Instead of locking yourself into rigid 25-minute intervals, **you decide how long you focus** — and your break is automatically calculated as **1/3 of your work time**.
+
+Work for 60 minutes → earn 20 minutes of rest.  
+Work for 30 minutes → earn 10 minutes of rest.  
+Flow naturally, then be rewarded proportionally.
+
+**Live demo → [re-pomodoro.vercel.app](https://re-pomodoro.vercel.app)**
+
+---
+
+## Why RePomodoro?
+
+The traditional Pomodoro technique works great for some, but the fixed 25-minute window can feel arbitrary — especially for deep work sessions like coding, writing, or studying where getting into flow takes time. RePomodoro lets you ride that flow, then rewards your effort with a rest period that scales with how hard you worked.
+
+| Traditional Pomodoro | RePomodoro |
+|---|---|
+| Fixed 25-min work intervals | You set the work duration |
+| Fixed 5-min breaks | Break = 1/3 of work time |
+| Interrupts deep work | Respects your flow state |
+| One-size-fits-all | Scales with your session |
+
+---
+
+## Features
+
+- **Proportional rest** — break duration is always 1/3 of your work session
+- **Flexible focus timer** — set any work duration that suits your session
+- **Sound notifications** — audio cues when work and rest periods end
+- **Clean, distraction-free UI** — built to keep you focused, not fidgeting
+
+---
+
+## Tech Stack
+
+- **Framework** — [Next.js](https://nextjs.org) (App Router)
+- **Language** — TypeScript
+- **Styling** — Tailwind CSS + [shadcn/ui](https://ui.shadcn.com)
+- **State Management** — Zustand (`/store`)
+- **Deployment** — Vercel
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+
+- npm, yarn, pnpm, or bun
+
+---
+
+## Project Structure
+
+```
+RePomodoro/
+├── app/              # Next.js App Router pages and layouts
+├── components/       # Reusable UI components
+├── lib/              # Utility functions and helpers
+├── store/            # Zustand state management
+├── sounds-libary/    # Audio assets for timer notifications
+└── public/           # Static assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How the Math Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+Rest Duration = Work Duration ÷ 3
 
-## Learn More
+Examples:
+  15 min work  →  5 min rest
+  30 min work  →  10 min rest
+  60 min work  →  20 min rest
+  90 min work  →  30 min rest
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Status
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+🚧 **In progress** — core timer is functional, more features on the way.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
