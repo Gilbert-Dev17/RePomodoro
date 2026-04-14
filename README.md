@@ -25,6 +25,22 @@ The traditional Pomodoro technique works great for some, but the fixed 25-minute
 
 ---
 
+## The Science Behind 1/3
+
+RePomodoro's rest ratio isn't a guess. A study by the **Draugiem Group** found
+that the most productive workers followed a roughly **52-minutes-of-work to
+17-minutes-of-rest** pattern — nearly exactly a 1:3 ratio. Researchers
+attributed this to how the brain naturally cycles: about an hour of high
+energy, followed by 15–20 minutes of lower energy.
+
+RePomodoro is built around this insight. Whatever your work duration,
+your earned rest is always **1/3 of that time** — scaling naturally with
+how long you actually worked.
+
+> Source: ["The Perfect Amount of Time to Work Each Day"](https://www.globalleadership.org/article/the-perfect-amount-of-time-to-work-each-day) — Travis Bradberry, TalentSmart
+
+---
+
 ## Features
 
 - **Proportional rest** — break duration is always 1/3 of your work session
