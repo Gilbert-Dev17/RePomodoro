@@ -9,6 +9,7 @@ const PRODUCT_LINKS = [
 const CONNECT_LINKS = [
   { label: 'Email', href: 'mailto:hello@refocus.app' },
   { label: 'GitHub', href: 'https://github.com/Gilbert-Dev17/RePomodoro', external: true },
+  {label: 'LinkedIn', href: 'https://www.linkedin.com/in/gilbert-cura/', external: true },
 ]
 
 const LEGAL_LINKS = [

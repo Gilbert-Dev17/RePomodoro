@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { label: 'Philosophy', href: '/#philosophy' },
   { label: 'Features', href: '/#features' },
   { label: 'The Journal', href: '/journal' },
-  { label: 'About Us', href: '/about' },
+  { label: 'About  Us', href: '/about' },
 ]
 
 export function MarketingNav() {
