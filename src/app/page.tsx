@@ -5,8 +5,9 @@ import { ArrowRight, ArrowDown, ChevronDown } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { MegaFooter } from '@/components/LandingPage/layout/MegaFooter';
 import { PrimaryButton } from '@/components/LandingPage/ui/PrimaryButton';
-import FeaturesPage from '@/components/LandingPage/pages/Features';
+import FeaturesPage from '@/components/LandingPage/pages/FeaturesPage';
 import DeskIllustration from '@/components/LandingPage/DeskIllustration';
+import {FloatingSidebar} from '@/components/LandingPage/layout/FloatingSidebar';
 
 export default function page() {
 
@@ -14,7 +15,7 @@ export default function page() {
     <div className="min-h-full flex flex-col bg-white text-[#111111] animate-[fadeIn_0.4s_ease-out]">
 
       {/* Hero Section */}
-      <section className="max-w-7xl h-full mx-auto px-6 pt-16 pb-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 w-full relative">
+      <section id="hero" className="max-w-7xl h-full mx-auto px-6 pt-16 pb-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-20 w-full relative">
 
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="flex-1 text-center lg:text-left z-10">
           <h1 className="text-[3.5rem] md:text-[5rem] lg:text-[5.5rem] font-serif font-bold tracking-tighter leading-[1.05] mb-6 text-[#2E2017]">
@@ -44,11 +45,13 @@ export default function page() {
 
       {/* Main Content Layout */}
       <main className="bg-[#FAF6EF] w-full border-t border-[#F6EEE5]">
-        <div className="max-w-360 mx-auto px-6 relative flex items-start justify-center">
-          <div className="hidden xl:block absolute left-6 2xl:left-12 top-0 bottom-0 w-56">
-            {/* <FloatingSidebar activePage="landing" /> */}
-          </div>
-            <FeaturesPage />
+        <div className="max-w-7xl mx-auto px-6 flex gap-12 relative">
+          <FloatingSidebar />
+
+          {/* Centered content */}
+        <div className="max-w-5xl mx-auto px-6">
+          <FeaturesPage />
+        </div>
         </div>
       </main>
 

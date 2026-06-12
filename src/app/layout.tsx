@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <body className="flex flex-col font-sans">
         <div className="min-h-full w-full flex flex-col">
-        <MarketingNav />
+          <MarketingNav />
 
             {children}
         </div>

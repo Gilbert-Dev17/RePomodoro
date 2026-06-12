@@ -1,13 +1,8 @@
-'use client';
-
-import React from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { MegaFooter } from '../../layout/MegaFooter'
-import { MarketingNav } from '../../layout/MarketingNav';
 
 export const TermsOfServicePage = () => (
   <div className="min-h-full flex flex-col bg-white text-[#2E2017] animate-[fadeIn_0.4s_ease-out]">
-    <MarketingNav />
 
     <div className="max-w-[90rem] mx-auto px-6 relative flex items-start justify-center w-full border-t border-[#F6EEE5] xl:border-t-0">
       <div className="hidden xl:block absolute left-6 2xl:left-12 top-0 bottom-0 w-56">

@@ -1,13 +1,9 @@
-import React from 'react'
-import { PrimaryButton } from '../ui/PrimaryButton'
 import { ArrowRight } from 'lucide-react'
-import { MarketingNav } from '../layout/MarketingNav'
 import { MegaFooter } from '../layout/MegaFooter'
 
 const MethodologyPage = () => {
   return (
    <div className="min-h-full flex flex-col bg-white text-[#2E2017] animate-[fadeIn_0.4s_ease-out]">
-    <MarketingNav  />
 
     <div className="max-w-[90rem] mx-auto px-6 relative flex items-start justify-center w-full">
       <div className="hidden xl:block absolute left-6 2xl:left-12 top-0 bottom-0 w-56">
