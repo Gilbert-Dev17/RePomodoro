@@ -145,7 +145,7 @@ const MethodologyPage = () => {
                   </div>
                   <div>
                     <p className="font-medium text-[#2E2017] text-sm">Gilbert</p>
-                    <p className="text-[#A08878] text-xs">Developer · Taguig, PH</p>
+                    <p className="text-[#A08878] text-xs">Developer · Tarlac City, PH</p>
                   </div>
                </div>
                {/* <PrimaryButton onClick={() => {}} variant="filled">Start your session</PrimaryButton> */}

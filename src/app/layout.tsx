@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
 import './globals.css'
+import { MarketingNav } from '@/components/LandingPage/layout/MarketingNav'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -32,6 +33,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <body className="flex flex-col font-sans">
         <div className="min-h-full w-full flex flex-col">
+        <MarketingNav />
+
             {children}
         </div>
       </body>
