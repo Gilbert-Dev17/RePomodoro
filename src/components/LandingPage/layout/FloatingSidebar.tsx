@@ -1,71 +1,84 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-
+import { motion, AnimatePresence } from 'framer-motion'
 
 const NAV_LINKS = [
   { label: 'Philosophy', id: 'philosophy', href: '#philosophy' },
-  { label: 'Features', id: 'features', href: '#features' },
-  { label: 'FAQ', id: 'faq', href: '#faq' },
+  { label: 'Features',   id: 'features',   href: '#features' },
+  { label: 'FAQ',        id: 'faq',        href: '#faq' },
 ]
 
 export function FloatingSidebar() {
-  const [activeSection, setActiveSection] = useState('philosophy' as string)
+  const [isPastHero, setIsPastHero]     = useState(false)
+  const [activeSection, setActiveSection] = useState('philosophy')
+  const intersectingRef                 = useRef(new Set<string>())
 
+  // Show/hide: watch the hero section
   useEffect(() => {
-    const sections = NAV_LINKS.map(link =>
-      document.getElementById(link.id)
-    ).filter(Boolean)
-
+    const hero = document.getElementById('hero')
+    if (!hero) return
 
     const observer = new IntersectionObserver(
-      entries => {
-        // Find the section closest to the top of the viewport
-        let closest = entries[0]
-        entries.forEach(entry => {
-          if (entry.isIntersecting && entry.boundingClientRect.top < closest.boundingClientRect.top) {
-            closest = entry
-          }
-        })
-        if (closest.isIntersecting) {
-          setActiveSection(closest.target.id)
-        }
-      },
-      {
-        threshold: 0.1,
-      }
+      ([entry]) => setIsPastHero(!entry.isIntersecting),
+      { threshold: 0.1 }
     )
-
-    sections.forEach(section => observer.observe(section!))
-
+    observer.observe(hero)
     return () => observer.disconnect()
   }, [])
 
+  // Active link: track which sections are visible, pick the topmost
+  useEffect(() => {
+    const elements = NAV_LINKS
+      .map(l => document.getElementById(l.id))
+      .filter(Boolean) as HTMLElement[]
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) intersectingRef.current.add(entry.target.id)
+          else intersectingRef.current.delete(entry.target.id)
+        })
+        // NAV_LINKS is ordered top-to-bottom, so first match = topmost
+        const active = NAV_LINKS.find(l => intersectingRef.current.has(l.id))
+        if (active) setActiveSection(active.id)
+      },
+      { threshold: 0.3 }
+    )
+
+    elements.forEach(el => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <aside className="hidden xl:flex fixed left-8 top-1/2 -translate-y-1/2 z-50 w-56 flex-col gap-10">
-      <div>
-        <h4 className="text-xs font-bold tracking-[0.2em] uppercase text-[#C9523A] mb-4">
-          Overview
-        </h4>
-
-        <div className="flex flex-col gap-5">
-          {NAV_LINKS.map(link => (
-            <Link
-              key={link.id}
-              href={link.href}
-              className={`text-lg font-medium transition-colors ${
-                activeSection === link.id
-                  ? 'text-[#C9523A]'
-                  : 'text-[#A08878] hover:text-[#2E2017]'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      </div>
-    </aside>
+    <AnimatePresence>
+      {isPastHero && (
+        <motion.aside
+          initial={{ opacity: 0, x: -16 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -16 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          aria-label="Sidebar navigation"
+          className="hidden xl:flex fixed left-8 top-1/2 -translate-y-1/2 z-50 w-48 flex-col gap-6"
+        >
+          <nav className="flex flex-col gap-4">
+            {NAV_LINKS.map(link => (
+              <Link
+                key={link.id}
+                href={link.href}
+                className={`text-base font-medium transition-colors ${
+                  activeSection === link.id
+                    ? 'text-[#C9523A]'
+                    : 'text-[#A08878] hover:text-[#2E2017]'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </motion.aside>
+      )}
+    </AnimatePresence>
   )
 }
