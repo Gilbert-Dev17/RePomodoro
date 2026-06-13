@@ -2,23 +2,21 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PrimaryButton } from '../ui/PrimaryButton'
-
-const NAV_LINKS = [
-  { label: 'Philosophy', href: '/#philosophy' },
-  { label: 'Features',   href: '/#features' },
-  { label: 'About Us',   href: '/about' },
-]
+import { NAV_LINKS } from '@/config/constants/navigation'
 
 export function MarketingNav() {
-  const [isOpen, setIsOpen]       = useState(false)
+  const [isOpen, setIsOpen]         = useState(false)
   const [isPastHero, setIsPastHero] = useState(false)
-  const [isXl, setIsXl]           = useState(false)
+  const [isXl, setIsXl]             = useState(false)
+  const pathname                    = usePathname()
 
-  // Detect when the hero scrolls out of view
   useEffect(() => {
+    setIsPastHero(false)
+
     const hero = document.getElementById('hero')
     if (!hero) return
 
@@ -28,9 +26,8 @@ export function MarketingNav() {
     )
     observer.observe(hero)
     return () => observer.disconnect()
-  }, [])
+  }, [pathname])
 
-  // Track xl breakpoint — sidebar only replaces the nav on wide screens
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1280px)')
     setIsXl(mq.matches)
@@ -39,7 +36,6 @@ export function MarketingNav() {
     return () => mq.removeEventListener('change', handler)
   }, [])
 
-  // On mobile/tablet the top nav always stays; on xl+ the sidebar takes over
   const isHidden = isPastHero && isXl
 
   return (
@@ -53,7 +49,7 @@ export function MarketingNav() {
           className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-[#F6EEE5]"
         >
           <nav
-            className="max-w-7xl w-full mx-auto px-6 py-4 flex justify-between items-center relative"
+            className="max-w-7xl w-full mx-auto px-6 py-4 flex justify-between items-center"
             aria-label="Main navigation"
           >
             <Link

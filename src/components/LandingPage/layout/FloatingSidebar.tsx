@@ -3,19 +3,14 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-
-const NAV_LINKS = [
-  { label: 'Philosophy', id: 'philosophy', href: '#philosophy' },
-  { label: 'Features',   id: 'features',   href: '#features' },
-  { label: 'FAQ',        id: 'faq',        href: '#faq' },
-]
+import { NAV_LINKS } from '@/config/constants/navigation'
 
 export function FloatingSidebar() {
-  const [isPastHero, setIsPastHero]     = useState(false)
+  const [isPastHero, setIsPastHero] = useState(false)
+  const [isFooterVisible, setIsFooterVisible] = useState(false)
   const [activeSection, setActiveSection] = useState('philosophy')
-  const intersectingRef                 = useRef(new Set<string>())
+  const intersectingRef = useRef(new Set<string>())
 
-  // Show/hide: watch the hero section
   useEffect(() => {
     const hero = document.getElementById('hero')
     if (!hero) return
@@ -28,7 +23,18 @@ export function FloatingSidebar() {
     return () => observer.disconnect()
   }, [])
 
-  // Active link: track which sections are visible, pick the topmost
+  useEffect(() => {
+    const footer = document.getElementById('footer')
+    if (!footer) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsFooterVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    )
+    observer.observe(footer)
+    return () => observer.disconnect()
+  }, [])
+
   useEffect(() => {
     const elements = NAV_LINKS
       .map(l => document.getElementById(l.id))
@@ -40,7 +46,7 @@ export function FloatingSidebar() {
           if (entry.isIntersecting) intersectingRef.current.add(entry.target.id)
           else intersectingRef.current.delete(entry.target.id)
         })
-        // NAV_LINKS is ordered top-to-bottom, so first match = topmost
+
         const active = NAV_LINKS.find(l => intersectingRef.current.has(l.id))
         if (active) setActiveSection(active.id)
       },
@@ -51,9 +57,11 @@ export function FloatingSidebar() {
     return () => observer.disconnect()
   }, [])
 
+  const isVisible = isPastHero && !isFooterVisible
+
   return (
     <AnimatePresence>
-      {isPastHero && (
+      {isVisible && (
         <motion.aside
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
