@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { NAV_LINKS } from '@/config/constants/navigation'
+import { NAV_LINKS } from '@/config/constants/landingPage/navigation'
 
 export function FloatingSidebar() {
   const [isPastHero, setIsPastHero] = useState(false)

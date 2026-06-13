@@ -1,101 +1,13 @@
-import { useState } from 'react'
-import { ArrowRight, ChevronDown } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
-import FeaturesStickyStack from './legalPages/FeaturesStickyStack'
+import FeaturesStickyStack from '../FeaturesStickyStack'
 import Link from 'next/link'
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
+import {faqs} from "@/config/constants/landingPage/FAQ";
+import {researchQuotes} from "@/config/constants/landingPage/researchQuotes";
 
-// --- Types ---
-
-interface Faq {
-  q: string
-  a: string
-}
-
-interface ResearchQuote {
-  quote: string
-  source: string
-}
-
-// --- Data ---
-
-const faqs: Faq[] = [
-  {
-    q: 'What if I stop working before the timer finishes?',
-    a: 'There is no countdown timer to finish. Re.Focus uses a stopwatch that counts up. You stop when you naturally lose focus, and it calculates your earned break based on your actual effort.',
-  },
-  {
-    q: 'Do I need to sign up to use it?',
-    a: 'No. You can start a session immediately without creating an account. Sign up is only required if you want to save your session history and track your streaks over time.',
-  },
-  {
-    q: 'Where does the 1 hr = 20 min formula come from?',
-    a: "It's derived from a synthesis of DeskTime's 52:17 rule, Nathaniel Kleitman's Ultradian rhythms, and Mihaly Csikszentmihalyi's flow state research—equating to roughly a 3:1 biological ratio of work to rest.",
-  },
-  {
-    q: 'How is this different from Forest or Pomofocus?',
-    a: 'Traditional apps lock you into rigid 25-minute countdowns. Re.Focus tracks your natural workflow and rewards you with proportional rest, actively protecting your flow states rather than interrupting them.',
-  },
-  {
-    q: 'Is my session history saved?',
-    a: 'Yes. Once you create a free account, your session history, earned breaks, and daily streaks are securely saved to the cloud.',
-  },
-]
-
-const researchQuotes: ResearchQuote[] = [
-  {
-    quote: '"The top 10% of performers worked for exactly 52 minutes, then rested 17."',
-    source: '— DeskTime',
-  },
-  {
-    quote: '"It takes 10–15 min just to enter a flow state. Short timers kill concentration."',
-    source: '— Csikszentmihalyi',
-  },
-  {
-    quote: '"The brain operates optimally in 90-minute focus cycles."',
-    source: '— N. Kleitman',
-  },
-]
-
-// --- Sub-components ---
-
-const ResearchQuoteCard = ({ quote, source }: ResearchQuote) => (
-  <div className="flex flex-col justify-between">
-    <p className="text-lg font-medium italic text-[#EADDCF] mb-6">{quote}</p>
-    <p className="text-xs text-[#A08878] font-bold tracking-widest uppercase">{source}</p>
-  </div>
-)
-
-interface FaqItemProps {
-  faq: Faq
-  isOpen: boolean
-  onToggle: () => void
-}
-
-const FaqItem = ({ faq, isOpen, onToggle }: FaqItemProps) => (
-  <div className="border-b border-[#E1D4C5]">
-    <button
-      onClick={onToggle}
-      className="w-full py-6 flex justify-between items-center text-left transition-colors group"
-      aria-expanded={isOpen}
-    >
-      <span className="text-xl font-serif text-[#2E2017] group-hover:text-[#C9523A] transition-colors pr-8">
-        {faq.q}
-      </span>
-      <ChevronDown
-        size={20}
-        className={`text-[#A08878] transition-transform duration-300 shrink-0 ${isOpen ? 'rotate-180' : ''}`}
-      />
-    </button>
-    <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-[600px] pb-6 opacity-100' : 'max-h-0 opacity-0'}`}>
-      <p className="text-[#A08878] leading-relaxed">{faq.a}</p>
-    </div>
-  </div>
-)
-
-// --- Page ---
 
 const FeaturesPage = () => {
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   return (
     <div className="bg-[#FAF6EF] w-full border-t border-[#F6EEE5]">
@@ -129,8 +41,11 @@ const FeaturesPage = () => {
           {/* Research */}
           <section className="bg-[#2E2017] rounded-[2.5rem] p-10 md:p-12 shadow-lg">
             <div className="grid md:grid-cols-3 gap-10">
-              {researchQuotes.map(({ quote, source }) => (
-                <ResearchQuoteCard key={source} quote={quote} source={source} />
+              {researchQuotes.map((quote) => (
+                 <div key={quote.id} className="flex flex-col justify-between">
+                    <p className="text-lg font-medium italic text-[#EADDCF] mb-6">{quote.quote}</p>
+                    <p className="text-xs text-[#A08878] font-bold tracking-widest uppercase">{quote.source}</p>
+                  </div>
               ))}
             </div>
           </section>
@@ -153,19 +68,26 @@ const FeaturesPage = () => {
           </section>
 
           {/* FAQ */}
-          <section id="faq" className="scroll-mt-32">
+          <section id="faq" className="scroll-mt-32 mb-32">
             <h2 className="text-4xl md:text-5xl font-medium italic tracking-tight mb-10 text-[#2E2017]">
               Frequently asked questions
             </h2>
             <div className="flex flex-col border-t border-[#E1D4C5]">
-              {faqs.map((faq, i) => (
-                <FaqItem
-                  key={faq.q}
-                  faq={faq}
-                  isOpen={openFaq === i}
-                  onToggle={() => setOpenFaq(openFaq === i ? null : i)}
-                />
-              ))}
+              <Accordion
+                type="single"
+                collapsible
+                className="w-full">
+                {faqs.map((faq) => (
+                  <AccordionItem key={faq.id} value={faq.question}>
+                    <AccordionTrigger className="items-start text-xl font-serif text-[#2E2017] hover:text-[#C9523A] transition-colors pr-8 [&>svg]:mt-1">
+                        {faq.question}
+                      </AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-[#A08878] leading-relaxed">{faq.answer}</p>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </section>
 

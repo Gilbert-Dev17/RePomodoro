@@ -1,5 +1,5 @@
 import { ArrowLeft } from 'lucide-react'
-import { MegaFooter } from '../../layout/MegaFooter'
+import { MegaFooter } from '../layout/MegaFooter'
 
 export const TermsOfServicePage = () => (
   <div id="terms" className="min-h-full flex flex-col bg-white text-[#2E2017] animate-[fadeIn_0.4s_ease-out]">

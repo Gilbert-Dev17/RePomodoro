@@ -1,4 +1,4 @@
-import PrivacyPolicyPage from '@/components/LandingPage/pages/legalPages/PrivacyPolicy'
+import PrivacyPolicyPage from '@/components/LandingPage/pages/PrivacyPolicy'
 
 const page = () => {
   return (

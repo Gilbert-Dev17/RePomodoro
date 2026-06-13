@@ -1,6 +1,6 @@
 import React from 'react'
 import { ArrowLeft } from 'lucide-react'
-import { MegaFooter } from '../../layout/MegaFooter'
+import { MegaFooter } from '../layout/MegaFooter'
 
 const PrivacyPolicyPage = () => {
   return (

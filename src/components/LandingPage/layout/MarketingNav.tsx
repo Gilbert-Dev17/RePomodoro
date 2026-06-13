@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { PrimaryButton } from '../ui/PrimaryButton'
-import { NAV_LINKS } from '@/config/constants/navigation'
+import { NAV_LINKS } from '@/config/constants/landingPage/navigation'
 
 export function MarketingNav() {
   const [isOpen, setIsOpen]         = useState(false)

@@ -1,54 +1,22 @@
-import { BellOff, CloudRain, Coffee, History, Settings2, Sparkles, VolumeX, type LucideIcon } from 'lucide-react'
+import {features, soundscapeItems, historyItems, type FeatureCardProps} from "@/config/constants/landingPage/features";
+import { BellOff} from 'lucide-react'
 import { motion } from 'framer-motion'
-
-// --- Types ---
-
-interface Feature {
-  id: string
-  title: string
-  desc: string
-  icon: LucideIcon
-}
-
-// --- Data ---
-
-const featureData: Feature[] = [
-  {
-    id: 'adaptive',
-    title: 'Adaptive Breaks',
-    desc: 'No alarms breaking your flow. Your rest time accrues automatically in the background based on your actual focus effort.',
-    icon: Sparkles,
-  },
-  {
-    id: 'sound',
-    title: 'Soundscapes',
-    desc: 'Built-in ambient soundscapes. Mix rain, coffee shop chatter, and white noise to drown out distractions instantly.',
-    icon: VolumeX,
-  },
-  {
-    id: 'history',
-    title: 'Session History',
-    desc: 'Review your focus logs, see what you worked on, and track your deepest work sessions automatically.',
-    icon: History,
-  },
-  {
-    id: 'zen',
-    title: 'Minimalist Zen',
-    desc: 'A UI that gets out of your way. No ads, no social feeds, just a clean, warm environment designed for concentration.',
-    icon: Settings2,
-  },
-]
+import { pulseAnimation, scaleAnimation, progressBarAnimation, glowAnimation } from '@/utils/animationConfigs'
 
 // --- Feature Visuals ---
 
+/**
+ * AdaptiveBreaksVisual
+ * Displays an animated focus timer with adaptive break accrual progress bar.
+ * Shows focus duration, break bank accumulated, and animated progress visualization.
+ */
 const AdaptiveBreaksVisual = () => (
   <div className="w-full max-w-sm flex justify-center">
     <div className="w-full flex flex-col gap-6 bg-white border border-[#F6EEE5] rounded-[2rem] p-6 shadow-md">
       <div className="flex justify-between items-center px-2">
         <div className="flex items-center gap-3">
           <motion.div
-            animate={{ opacity: [1, 0.4, 1] }}
-            transition={{ repeat: Infinity, duration: 2 }}
+            {...pulseAnimation}
             className="w-2.5 h-2.5 rounded-full bg-[#C9523A]"
           />
           <span className="text-xs font-bold text-[#A08878] uppercase tracking-widest">Focusing</span>
@@ -60,8 +28,7 @@ const AdaptiveBreaksVisual = () => (
         <div className="flex justify-between items-center mb-4">
           <span className="text-xs font-bold text-[#2E2017] uppercase tracking-widest">Break Bank</span>
           <motion.div
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ repeat: Infinity, duration: 2, delay: 1 }}
+            {...scaleAnimation}
             className="bg-white text-[#C9523A] font-bold px-3 py-1 rounded-lg shadow-sm border border-[#E1D4C5] text-sm"
           >
             25m earned
@@ -69,9 +36,7 @@ const AdaptiveBreaksVisual = () => (
         </div>
         <div className="h-2 w-full bg-[#E1D4C5] rounded-full overflow-hidden">
           <motion.div
-            initial={{ width: '30%' }}
-            animate={{ width: ['30%', '85%', '30%'] }}
-            transition={{ duration: 6, ease: 'easeInOut', repeat: Infinity }}
+            {...progressBarAnimation}
             className="h-full bg-[#C9523A] rounded-full"
           />
         </div>
@@ -80,12 +45,11 @@ const AdaptiveBreaksVisual = () => (
   </div>
 )
 
-const soundscapeItems = [
-  { id: 'volume', icon: VolumeX,   yOffset: -10, duration: 2,   delay: 0,   className: 'text-[#C9523A] shadow-md' },
-  { id: 'rain',   icon: CloudRain, yOffset: -15, duration: 2.5, delay: 0.2, className: 'text-[#A08878]' },
-  { id: 'coffee', icon: Coffee,    yOffset: -8,  duration: 1.8, delay: 0.4, className: 'text-[#A08878]' },
-]
-
+/**
+ * SoundscapesVisual
+ * Renders animated soundscape icon options (rain, coffee shop, white noise).
+ * Each icon animates with staggered vertical movement based on config values.
+ */
 const SoundscapesVisual = () => (
   <div className="flex gap-6 items-end">
     {soundscapeItems.map(({ id, icon: Icon, yOffset, duration, delay, className }) => (
@@ -101,12 +65,11 @@ const SoundscapesVisual = () => (
   </div>
 )
 
-const historyItems = [
-  { label: 'Deep Work', time: '1h 10m' },
-  { label: 'Writing',   time: '45m' },
-  { label: 'Planning',  time: '20m' },
-]
-
+/**
+ * SessionHistoryVisual
+ * Displays a list of example session history with work type labels and durations.
+ * Shows Deep Work, Writing, and Planning sessions with time spent.
+ */
 const SessionHistoryVisual = () => (
   <div className="flex flex-col gap-6 w-full max-w-sm bg-white p-8 rounded-[2rem] border border-[#F6EEE5] shadow-sm">
     {historyItems.map(({ label, time }, i) => (
@@ -121,11 +84,15 @@ const SessionHistoryVisual = () => (
   </div>
 )
 
+/**
+ * MinimalistZenVisual
+ * Represents the zen minimalist design with glowing background effect and centered bell icon.
+ * Emphasizes the distraction-free, calm interface of the app.
+ */
 const MinimalistZenVisual = () => (
   <div className="relative flex items-center justify-center">
     <motion.div
-      animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-      transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+      {...glowAnimation}
       className="absolute w-64 h-64 bg-[#EADDCF] rounded-full blur-3xl"
     />
     <div className="relative z-10 w-40 h-40 bg-white rounded-[2.5rem] border-[6px] border-[#F6EEE5] flex items-center justify-center shadow-lg">
@@ -134,17 +101,26 @@ const MinimalistZenVisual = () => (
   </div>
 )
 
-const featureVisuals = [AdaptiveBreaksVisual, SoundscapesVisual, SessionHistoryVisual, MinimalistZenVisual]
+/**
+ * Explicit mapping of feature IDs to their visual components
+ * Replaces implicit array indexing with clear, maintainable object-based lookup
+ */
+const featureVisuals = {
+  adaptive: AdaptiveBreaksVisual,
+  sound: SoundscapesVisual,
+  history: SessionHistoryVisual,
+  zen: MinimalistZenVisual,
+} as const
 
-// --- Feature Card ---
 
-interface FeatureCardProps {
-  feature: Feature
-  index: number
-}
-
+/**
+ * FeatureCard
+ * Renders a sticky card displaying a single feature with its visual component.
+ * @param feature - Feature data including title, description, and ID
+ * @param index - Position in the feature list (for stacking effect)
+ */
 const FeatureCard = ({ feature, index }: FeatureCardProps) => {
-  const Visual = featureVisuals[index]
+  const Visual = featureVisuals[feature.id as keyof typeof featureVisuals]
 
   return (
     <div
@@ -168,9 +144,15 @@ const FeatureCard = ({ feature, index }: FeatureCardProps) => {
 
 // --- Main Export ---
 
+/**
+ * FeaturesStickyStack
+ * Main component that renders all features as sticky-stacked cards with parallax effect.
+ * Each card stays visible briefly before the next feature scrolls in, creating an engaging
+ * presentation of the app's key capabilities.
+ */
 const FeaturesStickyStack = () => (
   <div className="flex flex-col gap-12 ">
-    {featureData.map((feature, i) => (
+    {features.map((feature, i) => (
       <FeatureCard key={feature.id} feature={feature} index={i} />
     ))}
   </div>

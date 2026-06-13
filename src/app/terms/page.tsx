@@ -1,4 +1,4 @@
-import TermsOfServicePage from '@/components/LandingPage/pages/legalPages/TermsofService'
+import TermsOfServicePage from '@/components/LandingPage/pages/TermsofService'
 
 const page = () => {
   return (
