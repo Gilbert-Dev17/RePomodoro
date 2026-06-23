@@ -1,72 +1,46 @@
-# 🍅 RePomodoro
+# Next.js + Supabase Starter Template
 
-> Work on your terms. Rest what you've earned.
-
-RePomodoro flips the classic Pomodoro technique on its head. Instead of locking yourself into rigid 25-minute intervals, **you decide how long you focus** — and your break is automatically calculated as **1/3 of your work time**.
-
-Work for 60 minutes → earn 20 minutes of rest.  
-Work for 30 minutes → earn 10 minutes of rest.  
-Flow naturally, then be rewarded proportionally.
-
-**Live demo → [re-pomodoro.vercel.app](https://re-pomodoro.vercel.app)**
-
----
-
-## Why RePomodoro?
-
-The traditional Pomodoro technique works great for some, but the fixed 25-minute window can feel arbitrary — especially for deep work sessions like coding, writing, or studying where getting into flow takes time. RePomodoro lets you ride that flow, then rewards your effort with a rest period that scales with how hard you worked.
-
-| Traditional Pomodoro | RePomodoro |
-|---|---|
-| Fixed 25-min work intervals | You set the work duration |
-| Fixed 5-min breaks | Break = 1/3 of work time |
-| Interrupts deep work | Respects your flow state |
-| One-size-fits-all | Scales with your session |
-
----
-
-## The Science Behind 1/3
-
-RePomodoro's rest ratio isn't arbitrary. Multiple independent studies across
-neuroscience and behavioral research converge on the same finding: the human
-brain needs roughly **1 minute of rest for every 3 minutes of focused work**.
-
-| Study | Finding |
-|---|---|
-| Draugiem Group / DeskTime (2014) | Top 10% most productive workers: 52 min work → 17 min rest (~1:3) |
-| DeskTime Updated Study (2021) | 112 min work → 26 min rest (same proportional range) |
-| Nathaniel Kleitman — BRAC (1963) | Brain operates in 90-min high-alertness cycles, followed by ~20 min rest |
-| Peretz Lavie — Technion Institute | Ultradian rest troughs are biologically mandatory, not optional |
-| Chris Bailey (3-study meta, 2023) | Optimal productivity = 20–25% of work time spent on breaks |
-
-The consistent thread: **your brain is not designed for continuous output**.
-It cycles naturally between focus and recovery. RePomodoro simply makes that
-cycle visible and automatic — whatever your session length, your earned rest
-scales with it.
-
-> Further reading:
-> - ["The Perfect Amount of Time to Work Each Day"](https://www.globalleadership.org/article/the-perfect-amount-of-time-to-work-each-day) — Travis Bradberry
-> - ["Does the 52-17 rule really hold up?"](https://desktime.com/blog/52-17-updated) — DeskTime Blog
-> - ["For optimal productivity, be on break for 20-25% of the workday"](https://chrisbailey.com/for-optimal-productivity-be-on-break-for-20-25-of-the-workday/) — Chris Bailey
-
----
-
-## Features
-
-- **Proportional rest** — break duration is always 1/3 of your work session
-- **Flexible focus timer** — set any work duration that suits your session
-- **Sound notifications** — audio cues when work and rest periods end
-- **Clean, distraction-free UI** — built to keep you focused, not fidgeting
+A personal full-stack starter template built with Next.js, Supabase, Tailwind CSS, and shadcn/ui. Designed to eliminate repetitive project setup and enforce a consistent, scalable folder structure across projects.
 
 ---
 
 ## Tech Stack
 
-- **Framework** — [Next.js](https://nextjs.org) (App Router)
-- **Language** — TypeScript
-- **Styling** — Tailwind CSS + [shadcn/ui](https://ui.shadcn.com)
-- **State Management** — Zustand (`/store`)
-- **Deployment** — Vercel
+| Technology | Purpose |
+|---|---|
+| [Next.js 15](https://nextjs.org/) | React framework with App Router |
+| [TypeScript](https://www.typescriptlang.org/) | Type safety |
+| [Tailwind CSS v4](https://tailwindcss.com/) | Utility-first styling |
+| [shadcn/ui](https://ui.shadcn.com/) | Component library (Nova preset, Radix UI) |
+| [Supabase](https://supabase.com/) | Backend-as-a-Service (Auth, Database, Storage) |
+| [pnpm](https://pnpm.io/) | Fast, disk-efficient package manager |
+
+---
+
+## How to Use This Template
+
+1. Click the **"Use this template"** button at the top of this repository
+2. Name your new repository and select its visibility
+3. Clone your new repository locally:
+
+```bash
+git clone https://github.com/your-username/your-new-project.git
+cd your-new-project
+```
+
+4. Install dependencies:
+
+```bash
+pnpm install
+```
+
+5. Set up your environment variables (see [Environment Variables](#environment-variables))
+
+6. Start the development server:
+
+```bash
+pnpm dev
+```
 
 ---
 
@@ -74,45 +48,114 @@ scales with it.
 
 ### Prerequisites
 
-- Node.js 18+
-- npm, yarn, pnpm, or bun
+- [Node.js](https://nodejs.org/) v18 or higher
+- [pnpm](https://pnpm.io/installation) installed globally
+- A [Supabase](https://supabase.com/) project
+
+### Installation
+
+```bash
+# Install dependencies
+pnpm install
+
+# Copy the environment variable template
+cp .env.example .env.local
+```
+
+Fill in your Supabase credentials in `.env.local` (see [Environment Variables](#environment-variables)), then run the development server:
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## Project Structure
+## Folder Structure
 
 ```
-RePomodoro/
-├── app/              # Next.js App Router pages and layouts
-├── components/       # Reusable UI components
-├── lib/              # Utility functions and helpers
-├── store/            # Zustand state management
-├── sounds-libary/    # Audio assets for timer notifications
-└── public/           # Static assets
+├── public/                     # Static assets (images, icons, fonts)
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── (auth)/             # Authentication route group
+│   │   │   ├── sign-in/         # Sign-in page
+│   │   │   └── sign-up/         # Sign-up page
+│   │   ├── (dashboard)/        # Dashboard route group
+│   │   │   ├── layout.tsx      # Dashboard layout
+│   │   │   └── page.tsx        # Dashboard home page
+│   │   ├── globals.css         # Global styles and Tailwind imports
+│   │   ├── layout.tsx          # Root layout
+│   │   └── page.tsx            # Home page
+│   ├── components/
+│   │   ├── ui/                 # shadcn/ui components (auto-generated)
+│   │   │   └── button.tsx      # Example UI component
+│   │   └── shared/             # Reusable custom components
+│   ├── config/
+│   │   └── constants/          # App-wide constants (routes, endpoints, etc.)
+│   ├── hooks/                  # Custom React hooks
+│   ├── lib/
+│   │   ├── actions/            # Server actions
+│   │   ├── services/           # Business logic and API services
+│   │   ├── supabase/           # Supabase client configuration
+│   │   │   ├── client.ts       # Browser-side Supabase client
+│   │   │   ├── server.ts       # Server-side Supabase client
+│   │   │   ├── queries.ts      # Database query functions
+│   │   │   └── proxy.ts        # Middleware/proxy Supabase client
+│   │   └── utils.ts            # Utility functions (cn function, etc.)
+│   ├── types/                  # Global TypeScript types and interfaces
+│   └── utils/                  # Custom helper functions
+├── .env.example                # Environment variable template
+├── components.json             # shadcn/ui configuration
+├── eslint.config.mjs           # ESLint configuration
+├── next.config.ts              # Next.js configuration
+├── postcss.config.mjs          # PostCSS configuration
+├── proxy.ts                    # Proxy configuration
+├── pnpm-workspace.yaml         # pnpm workspace configuration
+├── tailwind.config.ts          # Tailwind CSS configuration
+└── tsconfig.json               # TypeScript configuration
 ```
 
 ---
 
-## How the Math Works
 
-```
-Rest Duration = Work Duration ÷ 3
+## Environment Variables
 
-Examples:
-  15 min work  →  5 min rest
-  30 min work  →  10 min rest
-  60 min work  →  20 min rest
-  90 min work  →  30 min rest
+Copy `.env.example` to `.env.local` and fill in the required values:
+
+```bash
+cp .env.example .env.local
 ```
+
+| Variable | Description | Where to Find |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL | Supabase Dashboard → Project Settings → API |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase anonymous public key | Supabase Dashboard → Project Settings → API |
+
+> **Note:** Never commit `.env.local` to version control. It is already included in `.gitignore`.
 
 ---
 
-## Status
+## Adding shadcn Components
 
-🚧 **In progress** — core timer is functional, more features on the way.
+This template uses the **Nova** preset with **Radix UI**. Add new components using:
+
+```bash
+pnpm dlx shadcn@latest add <component-name>
+```
+
+Example:
+
+```bash
+pnpm dlx shadcn@latest add dialog
+pnpm dlx shadcn@latest add input
+pnpm dlx shadcn@latest add card
+```
+
+Components are automatically placed in `src/components/ui/`.
 
 ---
 
 ## License
 
-MIT
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
